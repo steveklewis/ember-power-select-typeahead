@@ -1,4 +1,7 @@
 import Component from '@ember/component';
+
+import { computed }  from '@ember/object';
+
 import { isBlank } from '@ember/utils';
 import { run } from '@ember/runloop';
 import layout from '../../templates/components/power-select-typeahead/trigger';
@@ -49,7 +52,23 @@ export default Component.extend({
     }
   },
 
+  canClear: Ember.computed('select.searchText', 'select.disabled', 'allowClear', function() {
+    return !Ember.isEmpty(this.get('select.searchText')) && !this.get('select.disabled') && this.get('allowClear');
+  }),
+
   actions: {
+
+    clear(e) {
+      e.stopPropagation();
+      let input = document.querySelector(`#ember-power-select-typeahead-input-${this.get('select').uniqueId}`);
+      input.value = '';
+      this.get('select').actions.search('');
+      this.get('select').actions.close(this.get('select'), e);
+      if (e.type === 'touchstart') {
+        return false;
+      }
+    },
+
     /**
      * on mousedown prevent propagation of event
      *

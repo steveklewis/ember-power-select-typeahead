@@ -1,19 +1,17 @@
 <input type="search"
   value={{text}}
-  role="combobox"
   id="ember-power-select-typeahead-input-{{select.uniqueId}}"
   class="ember-power-select-typeahead-input ember-power-select-search-input"
   autocomplete="off"
-  autocorrect="off"
-  autocapitalize="off"
-  spellcheck="false"  
   placeholder={{placeholder}}
   oninput={{onInput}}
   onfocus={{onFocus}}
   onblur={{onBlur}}
-  disabled={{select.disabled}}
   onkeydown={{action "handleKeydown"}}
   onmousedown={{action "stopPropagation"}}>
+{{#if canClear}}
+    <span class="ember-power-select-clear-btn" onmousedown={{action "clear"}} ontouchstart={{action "clear"}}>&times;</span>
+{{/if}}
 {{#if select.loading}}
   <span class="ember-power-select-typeahead-loading-indicator"></span>
 {{/if}}
